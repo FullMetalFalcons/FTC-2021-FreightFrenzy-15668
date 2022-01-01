@@ -1,39 +1,34 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+
 import java.util.List;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 
-@TeleOp(name = "Final Auto Blue House", group = "Final")
+@Autonomous(name = "Final Auto Blue House", group = "Final")
 
 public class FinalAutoBlueHouse extends LinearOpMode {
 
-    /* Note: This sample uses the all-objects Tensor Flow model (FreightFrenzy_BCDM.tflite), which contains
-     * the following 4 detectable objects
-     *  0: Ball,
-     *  1: Cube,
-     *  2: Duck,
-     *  3: Marker (duck location tape marker)
-     *
-     *  Two additional model assets are available which only contain a subset of the objects:
-     *  FreightFrenzy_BC.tflite  0: Ball,  1: Cube
-     *  FreightFrenzy_DM.tflite  0: Duck,  1: Marker
-     */
+    DcMotor m1, m2, m3, m4, m5, m6;
+    DcMotorEx m7, m8;
 
-    private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
+    private static final String TFOD_MODEL_ASSET = "/sdcard/FIRST/tflitemodels/mycustommodel.tflite";
     private static final String[] LABELS = {
-            "Ball",
-            "Cube",
-            "Duck",
-            "Marker"
+            "left",
+            "center",
+            "right"
     };
-
     private static final String VUFORIA_KEY = "AW4Kjyf/////AAABmXIr/SXbv02xp0txPYNnhm0n1cDgB6aMDCKParQ2uA0v/QtUkGssXl5ck9XB4uIGe6O7g6l511DOFM85owy9jYanoHy+fVF9adBCoF28B/E7TGx/4YDfakBltEG7fzRMt+dBBwEQ13WbNEoUtNx5+HUFI3RaKcxVa0e+0kb+FGvjh9+0Wvy4E2zfPzxrNHFnhF436L48+Z7bz116uAk5lRlpluKY303A3fW5bqh85ze2elNNMLE2SKXjpk9u4hALYdkKCMnc1Oos9kAok7k41I/4gPo4IjqwUot/wXdUE7znU7nP/4QB0cVe83x8VqnmG7sEhxmfk5tIyknYJ/QEXiL0+iucqKw1oGL4q041vFF5";
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
@@ -41,27 +36,53 @@ public class FinalAutoBlueHouse extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
-        // first.
+        // configuration of motors
+        m1 = hardwareMap.dcMotor.get("fr_front_encoder");
+        m2 = hardwareMap.dcMotor.get("br");
+        m3 = hardwareMap.dcMotor.get("bl_left_encoder");
+        m4 = hardwareMap.dcMotor.get("fl_right_encoder");
+        m2.setDirection(DcMotor.Direction.REVERSE);
+        m5 = hardwareMap.dcMotor.get("rotater");
+        m6 = hardwareMap.dcMotor.get("arm");
+        m7 = (DcMotorEx) hardwareMap.dcMotor.get("wheel");
+        m8 = (DcMotorEx) hardwareMap.dcMotor.get("intake");
+        m1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        m2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        m3.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        m4.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        m5.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        m6.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        m7.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        m8.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        m1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m3.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m4.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m5.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m6.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m7.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m8.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        m2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        m3.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        m4.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        m5.setTargetPosition(0);
+        m5.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        m6.setTargetPosition(0);
+        m6.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        m7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        m8.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        StandardTrackingWheelLocalizer myLocalizer = new StandardTrackingWheelLocalizer(hardwareMap);
+        myLocalizer.setPoseEstimate(new Pose2d(0,0, Math.toRadians(90)));
+
         initVuforia();
         initTfod();
-
-        /**
-         * Activate TensorFlow Object Detection before we wait for the start command.
-         * Do it here so that the Camera Stream window will have the TensorFlow annotations visible.
-         **/
         if (tfod != null) {
             tfod.activate();
-            tfod.setZoom(1, 16.0/9.0);
+            tfod.setZoom(1.5, 16.0/9.0);
         }
-
-        telemetry.addData(">", "Press Play to start op mode");
-        telemetry.update();
-
-        waitForStart();
-
-        if (opModeIsActive()) {
-            while (opModeIsActive()) {
+        if (opModeIsActive() != true) {
+            while (opModeIsActive() != true) {
                 if (tfod != null) {
                     // getUpdatedRecognitions() will return null if no new information is available since
                     // the last time that call was made.
@@ -84,7 +105,10 @@ public class FinalAutoBlueHouse extends LinearOpMode {
             }
         }
 
-    }
+        waitForStart();
+
+
+        }
 
     private void initVuforia() {
         /*
@@ -109,7 +133,7 @@ public class FinalAutoBlueHouse extends LinearOpMode {
         tfodParameters.isModelTensorFlow2 = true;
         tfodParameters.inputSize = 320;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
+        tfod.loadModelFromFile(TFOD_MODEL_ASSET, LABELS);
     }
 
-}
+    }

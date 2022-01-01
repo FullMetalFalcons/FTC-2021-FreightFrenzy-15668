@@ -68,11 +68,14 @@ public class TestAutoRedHouse1 extends LinearOpMode {
 
         waitForStart();
 
+        // out and arm
+
         while (opModeIsActive()) {
-            setMotorPowers(-0.3,-0.3,-0.3,-0.3);
+            setMotorPowers(-0.6,-0.6,-0.6,-0.6);
             myLocalizer.update();
             Pose2d mypose = myLocalizer.getPoseEstimate();
-            if (mypose.getY() <= -26) {
+            if (mypose.getY() <= -15) {
+                stopMotors();
                 break;
             }
         }
@@ -99,10 +102,27 @@ public class TestAutoRedHouse1 extends LinearOpMode {
         }
 
         m8.setPower(-0.5);
-        sleep(1500);
+        sleep(2000);
 
-        stopMotors();
+        m5.setTargetPosition(700);
+        m5.setPower(-0.5);
+        while (m5.isBusy()) {
+        }
 
+        m6.setTargetPosition(720);
+        m6.setPower(0.5);
+        while (m6.isBusy()) {
+        }
+
+        m5.setTargetPosition(0);
+        m5.setPower(-0.5);
+        while (m5.isBusy()) {
+        }
+
+        m6.setTargetPosition(5);
+        m6.setPower(-0.5);
+        while (m6.isBusy()) {
+        }
 
     }
 

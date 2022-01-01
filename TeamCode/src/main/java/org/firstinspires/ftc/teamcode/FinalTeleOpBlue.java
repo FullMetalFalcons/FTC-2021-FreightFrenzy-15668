@@ -120,7 +120,7 @@ public class FinalTeleOpBlue extends LinearOpMode {
 
             // code for wheel
             if (gamepad2.b) {
-                m7.setPower(Range.clip(m7.getPower() - .01, -1, 0));
+                m7.setPower(Range.clip(m7.getPower() + .01, 0, 1));
             } else {
                 m7.setPower(0);
             }

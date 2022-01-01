@@ -12,10 +12,10 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 
 // auto is defined
-@Autonomous(name = "TestAutoRedHouse3", group = "Final")
+@Autonomous(name = "TestAutoRedHouse3 Rev 1", group = "Final")
 
 // extends LinearOpMode
-public class TestAutoRedHouse3 extends LinearOpMode {
+public class TestAutoRedHouse3Rev1 extends LinearOpMode {
 
     // declare other motors
     DcMotor m1, m2, m3, m4, m5, m6;
@@ -75,17 +75,16 @@ public class TestAutoRedHouse3 extends LinearOpMode {
             setMotorPowers(-0.6,-0.6,-0.6,-0.6);
             myLocalizer.update();
             Pose2d mypose = myLocalizer.getPoseEstimate();
+
+            m6.setTargetPosition(1200);
+            m6.setPower(0.5);
+
             if (mypose.getY() <= -15) {
                 stopMotors();
                 break;
             }
         }
         stopMotors();
-
-        m6.setTargetPosition(1200);
-        m6.setPower(0.5);
-        while (m6.isBusy()) {
-        }
 
         m5.setTargetPosition(1380);
         m5.setPower(0.5);
@@ -103,17 +102,16 @@ public class TestAutoRedHouse3 extends LinearOpMode {
         while (m5.isBusy()) {
         }
 
-        m6.setTargetPosition(5);
-        m6.setPower(-0.5);
-        while (m6.isBusy()) {
-        }
-
         // rotate and in
 
         while (opModeIsActive()) {
             setMotorPowers(-0.3,-0.3,0.3,0.3);
             myLocalizer.update();
             Pose2d mypose = myLocalizer.getPoseEstimate();
+
+            m6.setTargetPosition(5);
+            m6.setPower(-0.5);
+
             if (mypose.getHeading() >= 3.05) {
                 break;
             }
