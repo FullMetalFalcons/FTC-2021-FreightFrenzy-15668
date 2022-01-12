@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 
 // auto is defined
-@Autonomous(name = "TestAutoRedHouse3", group = "Final")
+@Autonomous(name = "Test Auto", group = "Final")
 
 // extends LinearOpMode
 public class TestAuto extends LinearOpMode {
@@ -59,15 +59,18 @@ public class TestAuto extends LinearOpMode {
         m6.setTargetPosition(1200);
         m6.setPower(0.5);
         while (m6.isBusy()) {
+            sleep(100);
         }
 
         m5.setTargetPosition(1380);
         m5.setPower(0.5);
         while (m5.isBusy()) {
+            sleep(100);
         }
 
         m8.setPower(-0.12);
         while (m8.isBusy()) {
+            sleep(100);
         }
         sleep(2000);
         m8.setPower(0);
@@ -75,11 +78,13 @@ public class TestAuto extends LinearOpMode {
         m5.setTargetPosition(0);
         m5.setPower(-0.5);
         while (m5.isBusy()) {
+            sleep(100);
         }
 
         m6.setTargetPosition(5);
         m6.setPower(-0.5);
         while (m6.isBusy()) {
+            sleep(100);
         }
 
 

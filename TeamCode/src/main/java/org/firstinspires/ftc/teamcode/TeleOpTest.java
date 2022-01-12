@@ -91,6 +91,7 @@ public class TeleOpTest extends LinearOpMode {
         telemetry.addData("rotater", m5.getCurrentPosition());
         telemetry.addData("x", myLocalizer.getPoseEstimate().getX());
         telemetry.addData("y", myLocalizer.getPoseEstimate().getY());
+        telemetry.addData("h", myLocalizer.getPoseEstimate().getHeading());
         telemetry.update();
 
         waitForStart();
@@ -106,6 +107,7 @@ public class TeleOpTest extends LinearOpMode {
             telemetry.addData("rotater", m5.getCurrentPosition());
             telemetry.addData("x", mypose.getX());
             telemetry.addData("y", mypose.getY());
+            telemetry.addData("h", mypose.getHeading());
             telemetry.update();
 
 

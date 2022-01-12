@@ -2,14 +2,13 @@
 package org.firstinspires.ftc.teamcode;
 
 // import classes
-
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.Range;
-
 import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 
 // teleop is defined
@@ -68,6 +67,9 @@ public class FinalTeleOpBlue extends LinearOpMode {
         double totalpowervalue = 1;
         boolean halfPower = false;
         boolean stickPressed = false;
+        int height = 350;
+        double power = 0.5;
+        int length = -1250;
 
         waitForStart();
 
@@ -111,16 +113,16 @@ public class FinalTeleOpBlue extends LinearOpMode {
 
             // code for intake
             if (gamepad2.right_trigger > 0.1) {
-                m8.setPower(gamepad2.right_trigger);
+                m8.setPower(-gamepad2.right_trigger * power);
             } else if (gamepad2.left_trigger > 0.1) {
-                m8.setPower(-gamepad2.left_trigger);
+                m8.setPower(gamepad2.left_trigger);
             } else {
                 m8.setPower(0);
             }
 
             // code for wheel
             if (gamepad2.b) {
-                m7.setPower(Range.clip(m7.getPower() + .01, 0, 1));
+                m7.setPower(Range.clip(m7.getPower() - .005, -1, 0));
             } else {
                 m7.setPower(0);
             }
@@ -158,6 +160,16 @@ public class FinalTeleOpBlue extends LinearOpMode {
             }
 
             // code for run to position
+            if (gamepad2.left_bumper) {
+                length = -1250;
+            } else if (gamepad2.right_bumper) {
+                length = -1550;
+            }
+            if (gamepad2.dpad_down) {
+                height = 350;
+            } else if (gamepad2.dpad_left) {
+                height = 650;
+            }
             if (gamepad2.start) {
                 m5.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 m6.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -168,54 +180,154 @@ public class FinalTeleOpBlue extends LinearOpMode {
                 m6.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
             if (gamepad2.y) {
-                m6.setTargetPosition(595);
+                m6.setTargetPosition(1200);
                 m6.setPower(0.5);
                 while (m6.isBusy()) {
                     drive(totalpowervalue);
+                    if (gamepad2.right_trigger > 0.1) {
+                        m8.setPower(-gamepad2.right_trigger * power);
+                    } else if (gamepad2.left_trigger > 0.1) {
+                        m8.setPower(gamepad2.left_trigger);
+                    } else {
+                        m8.setPower(0);
+                    }
                 }
-                m5.setTargetPosition(-1734);
-                m5.setPower(-0.5);
+                m5.setTargetPosition(-1100);
+                m5.setPower(0.5);
                 while (m5.isBusy()) {
                     drive(totalpowervalue);
-                }
-                m6.setTargetPosition(251);
-                m6.setPower(-0.5);
-                while (m6.isBusy()) {
-                    drive(totalpowervalue);
+                    if (gamepad2.right_trigger > 0.1) {
+                        m8.setPower(-gamepad2.right_trigger * power);
+                    } else if (gamepad2.left_trigger > 0.1) {
+                        m8.setPower(gamepad2.left_trigger);
+                    } else {
+                        m8.setPower(0);
+                    }
                 }
             } else if (gamepad2.x) {
                 m6.setTargetPosition(595);
                 m6.setPower(0.5);
                 while (m6.isBusy()) {
                     drive(totalpowervalue);
+                    if (gamepad2.right_trigger > 0.1) {
+                        m8.setPower(-gamepad2.right_trigger * power);
+                    } else if (gamepad2.left_trigger > 0.1) {
+                        m8.setPower(gamepad2.left_trigger);
+                    } else {
+                        m8.setPower(0);
+                    }
                 }
-                m5.setTargetPosition(-1445);
+                m5.setTargetPosition(length);
                 m5.setPower(-0.5);
                 while (m5.isBusy()) {
                     drive(totalpowervalue);
+                    if (gamepad2.right_trigger > 0.1) {
+                        m8.setPower(-gamepad2.right_trigger * power);
+                    } else if (gamepad2.left_trigger > 0.1) {
+                        m8.setPower(gamepad2.left_trigger);
+                    } else {
+                        m8.setPower(0);
+                    }
                 }
-                m6.setTargetPosition(251);
+                m6.setTargetPosition(height);
                 m6.setPower(-0.5);
                 while (m6.isBusy()) {
                     drive(totalpowervalue);
+                    if (gamepad2.right_trigger > 0.1) {
+                        m8.setPower(-gamepad2.right_trigger * power);
+                    } else if (gamepad2.left_trigger > 0.1) {
+                        m8.setPower(gamepad2.left_trigger);
+                    } else {
+                        m8.setPower(0);
+                    }
                 }
             } else if (gamepad2.a) {
                 m6.setTargetPosition(595);
                 m6.setPower(0.5);
                 while (m6.isBusy()) {
                     drive(totalpowervalue);
+                    if (gamepad2.right_trigger > 0.1) {
+                        m8.setPower(-gamepad2.right_trigger * power);
+                    } else if (gamepad2.left_trigger > 0.1) {
+                        m8.setPower(gamepad2.left_trigger);
+                    } else {
+                        m8.setPower(0);
+                    }
                 }
                 m5.setTargetPosition(-10);
                 m5.setPower(0.5);
                 while (m5.isBusy()) {
                     drive(totalpowervalue);
+                    if (gamepad2.right_trigger > 0.1) {
+                        m8.setPower(-gamepad2.right_trigger * power);
+                    } else if (gamepad2.left_trigger > 0.1) {
+                        m8.setPower(gamepad2.left_trigger);
+                    } else {
+                        m8.setPower(0);
+                    }
                 }
-                m6.setTargetPosition(30);
+                m6.setTargetPosition(5);
                 m6.setPower(-0.5);
                 while (m6.isBusy()) {
                     drive(totalpowervalue);
+                    if (gamepad2.right_trigger > 0.1) {
+                        m8.setPower(-gamepad2.right_trigger * power);
+                    } else if (gamepad2.left_trigger > 0.1) {
+                        m8.setPower(gamepad2.left_trigger);
+                    } else {
+                        m8.setPower(0);
+                    }
                 }
-
+            } else if (gamepad2.dpad_right) {
+                m6.setTargetPosition(2714);
+                m6.setPower(0.5);
+                while (m6.isBusy()) {
+                    drive(totalpowervalue);
+                    if (gamepad2.right_trigger > 0.1) {
+                        m8.setPower(-gamepad2.right_trigger * power);
+                    } else if (gamepad2.left_trigger > 0.1) {
+                        m8.setPower(gamepad2.left_trigger);
+                    } else {
+                        m8.setPower(0);
+                    }
+                }
+                m5.setTargetPosition(-2382);
+                m5.setPower(0.5);
+                while (m5.isBusy()) {
+                    drive(totalpowervalue);
+                    if (gamepad2.right_trigger > 0.1) {
+                        m8.setPower(-gamepad2.right_trigger * power);
+                    } else if (gamepad2.left_trigger > 0.1) {
+                        m8.setPower(gamepad2.left_trigger);
+                    } else {
+                        m8.setPower(0);
+                    }
+                }
+            } else if (gamepad2.dpad_up) {
+                m5.setTargetPosition(0);
+                m5.setPower(0.5);
+                while (m5.isBusy()) {
+                    drive(totalpowervalue);
+                    if (gamepad2.right_trigger > 0.1) {
+                        m8.setPower(-gamepad2.right_trigger * power);
+                    } else if (gamepad2.left_trigger > 0.1) {
+                        m8.setPower(gamepad2.left_trigger);
+                    } else {
+                        m8.setPower(0);
+                    }
+                }
+                m6.setTargetPosition(5);
+                m6.setPower(0.5);
+                while (m6.isBusy()) {
+                    drive(totalpowervalue);
+                    if (gamepad2.right_trigger > 0.1) {
+                        m8.setPower(-gamepad2.right_trigger * power);
+                    } else if (gamepad2.left_trigger > 0.1) {
+                        m8.setPower(gamepad2.left_trigger);
+                    } else {
+                        m8.setPower(0);
+                    }
+                }
             }
 
         }

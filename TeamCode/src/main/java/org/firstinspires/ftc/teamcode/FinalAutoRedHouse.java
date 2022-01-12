@@ -2,22 +2,23 @@ package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
+import java.util.List;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 
-import java.util.List;
+@Autonomous(name = "Final Auto Red House", group = "Final")
 
-@Autonomous(name = "Final Auto Blue House", group = "Final")
-
-public class FinalAutoBlueHouse extends LinearOpMode {
+public class FinalAutoRedHouse extends LinearOpMode {
 
     DcMotor m1, m2, m3, m4, m5, m6;
     DcMotorEx m7, m8;
@@ -113,50 +114,31 @@ public class FinalAutoBlueHouse extends LinearOpMode {
 
             // out and arm
 
-            setMotorPowers(-0.2,-0.2,-0.2,-0.2);
-            sleep(100);
-            stopMotors();
-
-            while (opModeIsActive()) {
-                setMotorPowers(-0.5,0.5,-0.5,0.5);
-                myLocalizer.update();
-                Pose2d mypose = myLocalizer.getPoseEstimate();
-                if (mypose.getX() <= -2) {
-                    stopMotors();
-                    break;
-                }
-            }
-            stopMotors();
-
             while (opModeIsActive()) {
                 setMotorPowers(-0.6,-0.6,-0.6,-0.6);
                 myLocalizer.update();
                 Pose2d mypose = myLocalizer.getPoseEstimate();
-                if (mypose.getY() <= -6) {
+                m6.setTargetPosition(720);
+                m6.setPower(0.5);
+                if (mypose.getY() <= -12) {
                     stopMotors();
                     break;
                 }
             }
             stopMotors();
 
-            m6.setTargetPosition(800);
-            m6.setPower(0.5);
-            while (m6.isBusy()) {
-            }
-
-            m5.setTargetPosition(-1600);
-            m5.setPower(-0.5);
+            m5.setTargetPosition(1250);
+            m5.setPower(0.5);
             while (m5.isBusy()) {
             }
 
             m8.setPower(-0.5);
             sleep(2000);
-            while (m8.isBusy()) {
-            }
+            stopMotors();
             m8.setPower(0);
 
             m5.setTargetPosition(0);
-            m5.setPower(0.5);
+            m5.setPower(-0.5);
             while (m5.isBusy()) {
             }
 
@@ -168,40 +150,37 @@ public class FinalAutoBlueHouse extends LinearOpMode {
             // rotate and in
 
             while (opModeIsActive()) {
-                setMotorPowers(0.3,0.3,-0.3,-0.3);
+                setMotorPowers(-0.3,-0.3,0.3,0.3);
                 myLocalizer.update();
                 Pose2d mypose = myLocalizer.getPoseEstimate();
-                if (mypose.getHeading() >= 6.00) {
+                if (mypose.getHeading() >= 3.05) {
                     break;
                 }
             }
             stopMotors();
 
             setMotorPowers(-0.2,-0.2,-0.2,-0.2);
-            sleep(500);
+            sleep(250);
             stopMotors();
 
             while (opModeIsActive()) {
-                setMotorPowers(-0.7,0.7,-0.7,0.7);
+                setMotorPowers(0.7,-0.7,0.7,-0.7);
                 myLocalizer.update();
                 Pose2d mypose = myLocalizer.getPoseEstimate();
                 if (mypose.getY() >= 1) {
                     break;
                 }
             }
-            stopMotors();
-
-            setMotorPowers(-0.5,0.5,-0.5,0.5);
-            sleep(500);
+            sleep(300);
             stopMotors();
 
             // up and grab
 
             while (opModeIsActive()) {
-                setMotorPowers(0.4,0.4,0.4,0.4);
+                setMotorPowers(0.5,0.5,0.5,0.5);
                 myLocalizer.update();
                 Pose2d mypose = myLocalizer.getPoseEstimate();
-                if (mypose.getX() >= 20) {
+                if (mypose.getX() <= -20) {
                     stopMotors();
                     break;
                 }
@@ -210,9 +189,10 @@ public class FinalAutoBlueHouse extends LinearOpMode {
 
             sleep(200);
 
-            setMotorPowers(0.3,0.1,0.3,0.3);
+            setMotorPowers(0.1,0.3,0.3,0.3);
             m8.setPower(1);
             sleep(2000);
+            m8.setPower(0);
 
             stopMotors();
             m8.setPower(1);
@@ -221,10 +201,10 @@ public class FinalAutoBlueHouse extends LinearOpMode {
             // back
 
             m8.setPower(0);
-            setMotorPowers(-0.1,-0.3,-0.3,-0.3);
+            setMotorPowers(-0.3,-0.1,-0.3,-0.3);
             sleep(1000);
 
-            setMotorPowers(-0.5,0.5,-0.5,0.5);
+            setMotorPowers(0.5,-0.5,0.5,-0.5);
             sleep(1000);
             stopMotors();
 
@@ -232,7 +212,7 @@ public class FinalAutoBlueHouse extends LinearOpMode {
                 setMotorPowers(-0.3,-0.3,-0.3,-0.3);
                 myLocalizer.update();
                 Pose2d mypose = myLocalizer.getPoseEstimate();
-                if (mypose.getX() <= -5) {
+                if (mypose.getX() >= 5) {
                     break;
                 }
             }
@@ -241,21 +221,21 @@ public class FinalAutoBlueHouse extends LinearOpMode {
             // out and arm
 
             while (opModeIsActive()) {
-                setMotorPowers(0.5,-0.5,0.5,-0.5);
+                setMotorPowers(-0.5,0.5,-0.5,0.5);
                 myLocalizer.update();
                 Pose2d mypose = myLocalizer.getPoseEstimate();
 
                 m6.setTargetPosition(1200);
                 m6.setPower(0.5);
 
-                if (mypose.getY() <= -13) {
+                if (mypose.getY() <= -14) {
                     break;
                 }
             }
             stopMotors();
 
-            m5.setTargetPosition(1525);
-            m5.setPower(0.5);
+            m5.setTargetPosition(-1400);
+            m5.setPower(-0.5);
             while (m5.isBusy()) {
             }
 
@@ -265,8 +245,8 @@ public class FinalAutoBlueHouse extends LinearOpMode {
             sleep(2000);
             m8.setPower(0);
 
-            m5.setTargetPosition(-1);
-            m5.setPower(-0.5);
+            m5.setTargetPosition(-5);
+            m5.setPower(0.5);
             while (m5.isBusy()) {
             }
 
@@ -277,25 +257,29 @@ public class FinalAutoBlueHouse extends LinearOpMode {
 
             // back
 
-            setMotorPowers(-0.7,0.7,-0.7,0.7);
-            sleep(1000);
-            stopMotors();
-
-            setMotorPowers(-0.3,0.3,-0.3,0.3);
-            sleep(500);
+            setMotorPowers(0.7,-0.7,0.7,-0.7);
+            sleep(1500);
             stopMotors();
 
             // up
 
             while (opModeIsActive()) {
-                setMotorPowers(0.3,0.3,0.3,0.3);
+                setMotorPowers(0.5,0.5,0.5,0.5);
                 myLocalizer.update();
                 Pose2d mypose = myLocalizer.getPoseEstimate();
-                if (mypose.getX() >= 35) {
+                if (mypose.getX() <= -21) {
                     stopMotors();
                     break;
                 }
             }
+            stopMotors();
+
+            setMotorPowers(-1,1,-1,1);
+            sleep(650);
+            stopMotors();
+
+            setMotorPowers(1,1,-1,-1);
+            sleep(410);
             stopMotors();
 
         //left
@@ -308,200 +292,10 @@ public class FinalAutoBlueHouse extends LinearOpMode {
             stopMotors();
 
             while (opModeIsActive()) {
-                setMotorPowers(-0.5,0.5,-0.5,0.5);
-                myLocalizer.update();
-                Pose2d mypose = myLocalizer.getPoseEstimate();
-                if (mypose.getX() <= -2) {
-                    stopMotors();
-                    break;
-                }
-            }
-            stopMotors();
-
-            while (opModeIsActive()) {
-                setMotorPowers(-0.6,-0.6,-0.6,-0.6);
-                myLocalizer.update();
-                Pose2d mypose = myLocalizer.getPoseEstimate();
-
-                if (mypose.getY() <= -6) {
-                    stopMotors();
-                    break;
-                }
-            }
-            stopMotors();
-
-            m6.setTargetPosition(1250);
-            m6.setPower(0.5);
-            while (m6.isBusy()) {
-            }
-
-            m5.setTargetPosition(-1600);
-            m5.setPower(-0.5);
-            while (m5.isBusy()) {
-            }
-
-            m8.setPower(-0.5);
-            sleep(2000);
-            while (m8.isBusy()) {
-            }
-            m8.setPower(0);
-
-            m5.setTargetPosition(0);
-            m5.setPower(0.5);
-            while (m5.isBusy()) {
-            }
-
-            m6.setTargetPosition(5);
-            m6.setPower(-0.5);
-            while (m6.isBusy()) {
-            }
-
-            // rotate and in
-
-            while (opModeIsActive()) {
-                setMotorPowers(0.3,0.3,-0.3,-0.3);
-                myLocalizer.update();
-                Pose2d mypose = myLocalizer.getPoseEstimate();
-                if (mypose.getHeading() >= 6.00) {
-                    break;
-                }
-            }
-            stopMotors();
-
-            setMotorPowers(-0.2,-0.2,-0.2,-0.2);
-            sleep(500);
-            stopMotors();
-
-            while (opModeIsActive()) {
-                setMotorPowers(-0.7,0.7,-0.7,0.7);
-                myLocalizer.update();
-                Pose2d mypose = myLocalizer.getPoseEstimate();
-                if (mypose.getY() >= 1) {
-                    break;
-                }
-            }
-            stopMotors();
-
-            setMotorPowers(-0.5,0.5,-0.5,0.5);
-            sleep(500);
-            stopMotors();
-
-            // up and grab
-
-            while (opModeIsActive()) {
-                setMotorPowers(0.4,0.4,0.4,0.4);
-                myLocalizer.update();
-                Pose2d mypose = myLocalizer.getPoseEstimate();
-                if (mypose.getX() >= 20) {
-                    stopMotors();
-                    break;
-                }
-            }
-            stopMotors();
-
-            sleep(200);
-
-            setMotorPowers(0.3,0.1,0.3,0.3);
-            m8.setPower(1);
-            sleep(2000);
-
-            stopMotors();
-            m8.setPower(1);
-            sleep(250);
-
-            // back
-
-            m8.setPower(0);
-            setMotorPowers(-0.1,-0.3,-0.3,-0.3);
-            sleep(1000);
-
-            setMotorPowers(-0.5,0.5,-0.5,0.5);
-            sleep(1000);
-            stopMotors();
-
-            while (opModeIsActive()) {
-                setMotorPowers(-0.3,-0.3,-0.3,-0.3);
-                myLocalizer.update();
-                Pose2d mypose = myLocalizer.getPoseEstimate();
-                if (mypose.getX() <= -5) {
-                    break;
-                }
-            }
-            stopMotors();
-
-            // out and arm
-
-            while (opModeIsActive()) {
                 setMotorPowers(0.5,-0.5,0.5,-0.5);
                 myLocalizer.update();
                 Pose2d mypose = myLocalizer.getPoseEstimate();
-
-                m6.setTargetPosition(1200);
-                m6.setPower(0.5);
-
-                if (mypose.getY() <= -13) {
-                    break;
-                }
-            }
-            stopMotors();
-
-            m5.setTargetPosition(1525);
-            m5.setPower(0.5);
-            while (m5.isBusy()) {
-            }
-
-            m8.setPower(-0.12);
-            while (m8.isBusy()) {
-            }
-            sleep(2000);
-            m8.setPower(0);
-
-            m5.setTargetPosition(0);
-            m5.setPower(-0.5);
-            while (m5.isBusy()) {
-            }
-
-            m6.setTargetPosition(5);
-            m6.setPower(-0.5);
-            while (m6.isBusy()) {
-            }
-
-            // back
-
-            setMotorPowers(-0.7,0.7,-0.7,0.7);
-            sleep(1000);
-            stopMotors();
-
-            setMotorPowers(-0.3,0.3,-0.3,0.3);
-            sleep(500);
-            stopMotors();
-
-            // up
-
-            while (opModeIsActive()) {
-                setMotorPowers(0.3,0.3,0.3,0.3);
-                myLocalizer.update();
-                Pose2d mypose = myLocalizer.getPoseEstimate();
-                if (mypose.getX() >= 35) {
-                    stopMotors();
-                    break;
-                }
-            }
-            stopMotors();
-
-        } else {
-
-            // out and arm
-
-            setMotorPowers(-0.2,-0.2,-0.2,-0.2);
-            sleep(100);
-            stopMotors();
-
-            while (opModeIsActive()) {
-                setMotorPowers(-0.5,0.5,-0.5,0.5);
-                myLocalizer.update();
-                Pose2d mypose = myLocalizer.getPoseEstimate();
-                if (mypose.getX() <= -2) {
+                if (mypose.getX() >= 2) {
                     stopMotors();
                     break;
                 }
@@ -512,20 +306,20 @@ public class FinalAutoBlueHouse extends LinearOpMode {
                 setMotorPowers(-0.6,-0.6,-0.6,-0.6);
                 myLocalizer.update();
                 Pose2d mypose = myLocalizer.getPoseEstimate();
-                if (mypose.getY() <= -6) {
+                if (mypose.getY() <= -4) {
                     stopMotors();
                     break;
                 }
             }
             stopMotors();
 
-            m6.setTargetPosition(770);
+            m6.setTargetPosition(720);
             m6.setPower(0.5);
             while (m6.isBusy()) {
             }
 
-            m5.setTargetPosition(-700);
-            m5.setPower(-0.5);
+            m5.setTargetPosition(700);
+            m5.setPower(0.5);
             while (m5.isBusy()) {
             }
 
@@ -534,8 +328,8 @@ public class FinalAutoBlueHouse extends LinearOpMode {
             while (m6.isBusy()) {
             }
 
-            m5.setTargetPosition(-1600);
-            m5.setPower(-0.5);
+            m5.setTargetPosition(1757);
+            m5.setPower(0.5);
             while (m5.isBusy()) {
             }
 
@@ -545,8 +339,8 @@ public class FinalAutoBlueHouse extends LinearOpMode {
             }
             m8.setPower(0);
 
-            m5.setTargetPosition(-700);
-            m5.setPower(0.5);
+            m5.setTargetPosition(700);
+            m5.setPower(-0.5);
             while (m5.isBusy()) {
             }
 
@@ -556,7 +350,7 @@ public class FinalAutoBlueHouse extends LinearOpMode {
             }
 
             m5.setTargetPosition(0);
-            m5.setPower(0.5);
+            m5.setPower(-0.5);
             while (m5.isBusy()) {
             }
 
@@ -568,40 +362,41 @@ public class FinalAutoBlueHouse extends LinearOpMode {
             // rotate and in
 
             while (opModeIsActive()) {
-                setMotorPowers(0.3,0.3,-0.3,-0.3);
+                setMotorPowers(-0.3,-0.3,0.3,0.3);
                 myLocalizer.update();
                 Pose2d mypose = myLocalizer.getPoseEstimate();
-                if (mypose.getHeading() >= 6.00) {
+
+                m6.setTargetPosition(5);
+                m6.setPower(-0.5);
+
+                if (mypose.getHeading() >= 3.05) {
                     break;
                 }
             }
             stopMotors();
 
             setMotorPowers(-0.2,-0.2,-0.2,-0.2);
-            sleep(500);
+            sleep(250);
             stopMotors();
 
             while (opModeIsActive()) {
-                setMotorPowers(-0.7,0.7,-0.7,0.7);
+                setMotorPowers(0.7,-0.7,0.7,-0.7);
                 myLocalizer.update();
                 Pose2d mypose = myLocalizer.getPoseEstimate();
                 if (mypose.getY() >= 1) {
                     break;
                 }
             }
-            stopMotors();
-
-            setMotorPowers(-0.5,0.5,-0.5,0.5);
-            sleep(500);
+            sleep(300);
             stopMotors();
 
             // up and grab
 
             while (opModeIsActive()) {
-                setMotorPowers(0.4,0.4,0.4,04);
+                setMotorPowers(0.5,0.5,0.5,0.5);
                 myLocalizer.update();
                 Pose2d mypose = myLocalizer.getPoseEstimate();
-                if (mypose.getX() >= 20) {
+                if (mypose.getX() <= -20) {
                     stopMotors();
                     break;
                 }
@@ -610,7 +405,7 @@ public class FinalAutoBlueHouse extends LinearOpMode {
 
             sleep(200);
 
-            setMotorPowers(0.3,0.1,0.3,0.3);
+            setMotorPowers(0.1,0.3,0.3,0.3);
             m8.setPower(1);
             sleep(2000);
 
@@ -621,10 +416,10 @@ public class FinalAutoBlueHouse extends LinearOpMode {
             // back
 
             m8.setPower(0);
-            setMotorPowers(-0.1,-0.3,-0.3,-0.3);
+            setMotorPowers(-0.3,-0.1,-0.3,-0.3);
             sleep(1000);
 
-            setMotorPowers(-0.5,0.5,-0.5,0.5);
+            setMotorPowers(0.5,-0.5,0.5,-0.5);
             sleep(1000);
             stopMotors();
 
@@ -632,7 +427,7 @@ public class FinalAutoBlueHouse extends LinearOpMode {
                 setMotorPowers(-0.3,-0.3,-0.3,-0.3);
                 myLocalizer.update();
                 Pose2d mypose = myLocalizer.getPoseEstimate();
-                if (mypose.getX() <= -5) {
+                if (mypose.getX() >= 5) {
                     break;
                 }
             }
@@ -641,21 +436,21 @@ public class FinalAutoBlueHouse extends LinearOpMode {
             // out and arm
 
             while (opModeIsActive()) {
-                setMotorPowers(0.5,-0.5,0.5,-0.5);
+                setMotorPowers(-0.5,0.5,-0.5,0.5);
                 myLocalizer.update();
                 Pose2d mypose = myLocalizer.getPoseEstimate();
 
                 m6.setTargetPosition(1200);
                 m6.setPower(0.5);
 
-                if (mypose.getY() <= -13) {
+                if (mypose.getY() <= -14) {
                     break;
                 }
             }
             stopMotors();
 
-            m5.setTargetPosition(1525);
-            m5.setPower(0.5);
+            m5.setTargetPosition(-1400);
+            m5.setPower(-0.5);
             while (m5.isBusy()) {
             }
 
@@ -665,8 +460,8 @@ public class FinalAutoBlueHouse extends LinearOpMode {
             sleep(2000);
             m8.setPower(0);
 
-            m5.setTargetPosition(0);
-            m5.setPower(-0.5);
+            m5.setTargetPosition(-5);
+            m5.setPower(0.5);
             while (m5.isBusy()) {
             }
 
@@ -677,25 +472,202 @@ public class FinalAutoBlueHouse extends LinearOpMode {
 
             // back
 
-            setMotorPowers(-0.7,0.7,-0.7,0.7);
-            sleep(1000);
-            stopMotors();
-
-            setMotorPowers(-0.3,0.3,-0.3,0.3);
-            sleep(500);
+            setMotorPowers(0.7,-0.7,0.7,-0.7);
+            sleep(1500);
             stopMotors();
 
             // up
 
             while (opModeIsActive()) {
-                setMotorPowers(0.3,0.3,0.3,0.3);
+                setMotorPowers(0.5,0.5,0.5,0.5);
                 myLocalizer.update();
                 Pose2d mypose = myLocalizer.getPoseEstimate();
-                if (mypose.getX() >= 35) {
+                if (mypose.getX() <= -21) {
                     stopMotors();
                     break;
                 }
             }
+            stopMotors();
+
+            setMotorPowers(-1,1,-1,1);
+            sleep(650);
+            stopMotors();
+
+            setMotorPowers(1,1,-1,-1);
+            sleep(410);
+            stopMotors();
+
+        } else {
+
+            //out and arm
+
+            while (opModeIsActive()) {
+                setMotorPowers(-0.6,-0.6,-0.6,-0.6);
+                myLocalizer.update();
+                Pose2d mypose = myLocalizer.getPoseEstimate();
+
+                m6.setTargetPosition(1200);
+                m6.setPower(0.5);
+
+                if (mypose.getY() <= -15) {
+                    stopMotors();
+                    break;
+                }
+            }
+            stopMotors();
+
+            m5.setTargetPosition(1380);
+            m5.setPower(0.5);
+            while (m5.isBusy()) {
+            }
+
+            m8.setPower(-0.12);
+            while (m8.isBusy()) {
+            }
+            sleep(2000);
+            m8.setPower(0);
+
+            m5.setTargetPosition(0);
+            m5.setPower(-0.5);
+            while (m5.isBusy()) {
+            }
+
+            // rotate and in
+
+            while (opModeIsActive()) {
+                setMotorPowers(-0.3,-0.3,0.3,0.3);
+                myLocalizer.update();
+                Pose2d mypose = myLocalizer.getPoseEstimate();
+
+                m6.setTargetPosition(5);
+                m6.setPower(-0.5);
+
+                if (mypose.getHeading() >= 3.05) {
+                    break;
+                }
+            }
+            stopMotors();
+
+            setMotorPowers(-0.2,-0.2,-0.2,-0.2);
+            sleep(250);
+            stopMotors();
+
+            while (opModeIsActive()) {
+                setMotorPowers(0.7,-0.7,0.7,-0.7);
+                myLocalizer.update();
+                Pose2d mypose = myLocalizer.getPoseEstimate();
+                if (mypose.getY() >= 1) {
+                    break;
+                }
+            }
+            sleep(300);
+            stopMotors();
+
+            // up and grab
+
+            while (opModeIsActive()) {
+                setMotorPowers(0.5,0.5,0.5,0.5);
+                myLocalizer.update();
+                Pose2d mypose = myLocalizer.getPoseEstimate();
+                if (mypose.getX() <= -20) {
+                    stopMotors();
+                    break;
+                }
+            }
+            stopMotors();
+
+            sleep(200);
+
+            setMotorPowers(0.1,0.3,0.3,0.3);
+            m8.setPower(1);
+            sleep(2000);
+
+            stopMotors();
+            m8.setPower(1);
+            sleep(250);
+
+            // back
+
+            m8.setPower(0);
+            setMotorPowers(-0.3,-0.1,-0.3,-0.3);
+            sleep(1000);
+
+            setMotorPowers(0.5,-0.5,0.5,-0.5);
+            sleep(1000);
+            stopMotors();
+
+            while (opModeIsActive()) {
+                setMotorPowers(-0.3,-0.3,-0.3,-0.3);
+                myLocalizer.update();
+                Pose2d mypose = myLocalizer.getPoseEstimate();
+                if (mypose.getX() >= 5) {
+                    break;
+                }
+            }
+            stopMotors();
+
+            // out and arm
+
+            while (opModeIsActive()) {
+                setMotorPowers(-0.5,0.5,-0.5,0.5);
+                myLocalizer.update();
+                Pose2d mypose = myLocalizer.getPoseEstimate();
+
+                m6.setTargetPosition(1200);
+                m6.setPower(0.5);
+
+                if (mypose.getY() <= -14) {
+                    break;
+                }
+            }
+            stopMotors();
+
+            m5.setTargetPosition(-1400);
+            m5.setPower(-0.5);
+            while (m5.isBusy()) {
+            }
+
+            m8.setPower(-0.12);
+            while (m8.isBusy()) {
+            }
+            sleep(2000);
+            m8.setPower(0);
+
+            m5.setTargetPosition(-5);
+            m5.setPower(0.5);
+            while (m5.isBusy()) {
+            }
+
+            m6.setTargetPosition(-1);
+            m6.setPower(-0.5);
+            while (m6.isBusy()) {
+            }
+
+            // back
+
+            setMotorPowers(0.7,-0.7,0.7,-0.7);
+            sleep(1500);
+            stopMotors();
+
+            // up
+
+            while (opModeIsActive()) {
+                setMotorPowers(0.5,0.5,0.5,0.5);
+                myLocalizer.update();
+                Pose2d mypose = myLocalizer.getPoseEstimate();
+                if (mypose.getX() <= -21) {
+                    stopMotors();
+                    break;
+                }
+            }
+            stopMotors();
+
+            setMotorPowers(-1,1,-1,1);
+            sleep(650);
+            stopMotors();
+
+            setMotorPowers(1,1,-1,-1);
+            sleep(410);
             stopMotors();
 
         }
