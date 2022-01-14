@@ -71,6 +71,7 @@ public class FinalTeleOpRed extends LinearOpMode {
         int height = 350;
         double power = 0.5;
         int length = 1250;
+        int h2 = 1100;
 
         waitForStart();
 
@@ -166,6 +167,11 @@ public class FinalTeleOpRed extends LinearOpMode {
             }
 
             // code for run to position
+            if (gamepad2.left_stick_button) {
+                h2 = 1100;
+            } else if (gamepad2.right_stick_button) {
+                h2 = -1100;
+            }
             if (gamepad2.left_bumper) {
                 length = 1250;
             } else if (gamepad2.right_bumper) {
@@ -198,7 +204,7 @@ public class FinalTeleOpRed extends LinearOpMode {
                         m8.setPower(0);
                     }
                 }
-                m5.setTargetPosition(1100);
+                m5.setTargetPosition(h2);
                 m5.setPower(-0.5);
                 while (m5.isBusy()) {
                     drive(totalpowervalue);
