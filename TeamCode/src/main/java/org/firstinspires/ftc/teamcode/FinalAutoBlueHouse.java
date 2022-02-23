@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -15,6 +16,7 @@ import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 
 import java.util.List;
 
+@Disabled
 @Autonomous(name = "Final Auto Blue House", group = "Final")
 
 public class FinalAutoBlueHouse extends LinearOpMode {
@@ -529,7 +531,7 @@ public class FinalAutoBlueHouse extends LinearOpMode {
             while (m5.isBusy()) {
             }
 
-            m6.setTargetPosition(288);
+            m6.setTargetPosition(300);
             m6.setPower(-0.5);
             while (m6.isBusy()) {
             }

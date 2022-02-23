@@ -77,7 +77,6 @@ public class TeleOpTest extends LinearOpMode {
         parameters.loggingTag = "Who cares.";
         imu.initialize(parameters);
         Orientation orientation;
-
         StandardTrackingWheelLocalizer myLocalizer = new StandardTrackingWheelLocalizer(hardwareMap);
         myLocalizer.setPoseEstimate(new Pose2d(0,0, Math.toRadians(90)));
 
@@ -109,8 +108,6 @@ public class TeleOpTest extends LinearOpMode {
             telemetry.addData("y", mypose.getY());
             telemetry.addData("h", mypose.getHeading());
             telemetry.update();
-
-
 
             if (!stickPressed && ( (gamepad1.left_stick_button) || (gamepad1.right_stick_button) ) ) {
                 halfPower = !halfPower;

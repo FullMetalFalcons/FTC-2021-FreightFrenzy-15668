@@ -23,7 +23,7 @@ public class FinalAutoRedWheel extends LinearOpMode {
     DcMotor m1, m2, m3, m4, m5, m6;
     DcMotorEx m7, m8;
 
-    private static final String TFOD_MODEL_ASSET = "/sdcard/FIRST/tflitemodels/mycustommodelv2.tflite";
+    private static final String TFOD_MODEL_ASSET = "/sdcard/FIRST/tflitemodels/2model2.tflite";
     private static final String[] LABELS = {
             "left",
             "center",
@@ -32,7 +32,8 @@ public class FinalAutoRedWheel extends LinearOpMode {
     private static final String VUFORIA_KEY = "AW4Kjyf/////AAABmXIr/SXbv02xp0txPYNnhm0n1cDgB6aMDCKParQ2uA0v/QtUkGssXl5ck9XB4uIGe6O7g6l511DOFM85owy9jYanoHy+fVF9adBCoF28B/E7TGx/4YDfakBltEG7fzRMt+dBBwEQ13WbNEoUtNx5+HUFI3RaKcxVa0e+0kb+FGvjh9+0Wvy4E2zfPzxrNHFnhF436L48+Z7bz116uAk5lRlpluKY303A3fW5bqh85ze2elNNMLE2SKXjpk9u4hALYdkKCMnc1Oos9kAok7k41I/4gPo4IjqwUot/wXdUE7znU7nP/4QB0cVe83x8VqnmG7sEhxmfk5tIyknYJ/QEXiL0+iucqKw1oGL4q041vFF5";
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
-    String whatisrec;
+    String height = "";
+    double vnum = 0;
 
     @Override
     public void runOpMode() {
@@ -82,6 +83,7 @@ public class FinalAutoRedWheel extends LinearOpMode {
             tfod.activate();
             tfod.setZoom(1.0, 16.0/9.0);
         }
+
         if (opModeIsActive() != true) {
             while (opModeIsActive() != true) {
                 if (tfod != null) {
@@ -93,12 +95,18 @@ public class FinalAutoRedWheel extends LinearOpMode {
                         // step through the list of recognitions and display boundary info.
                         int i = 0;
                         for (Recognition recognition : updatedRecognitions) {
-                            telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-                            telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
-                                    recognition.getLeft(), recognition.getTop());
-                            telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
-                                    recognition.getRight(), recognition.getBottom());
-                            whatisrec = recognition.getLabel();
+                            telemetry.addData("label: ", recognition.getLabel());
+                            telemetry.addData("left: ", recognition.getLeft());
+                            telemetry.addData("con: ", recognition.getConfidence());
+                            vnum = recognition.getLeft();
+                            if (vnum < 100) {
+                                height = "left";
+                            } else if (vnum > 180 && vnum < 350) {
+                                height = "center";
+                            } else if (vnum > 570) {
+                                height = "right";
+                            }
+                            telemetry.addData("height: ", height);
                             i++;
                         }
                         telemetry.update();
@@ -109,8 +117,11 @@ public class FinalAutoRedWheel extends LinearOpMode {
 
         waitForStart();
 
-        //left
-        if (whatisrec == "right" || whatisrec == "center") {
+        if (height == "") {
+            height = "left";
+        }
+
+        if (height == "left") {
 
             setMotorPowers(-0.3,0.3,-0.3,0.3);
             sleep(700);
@@ -124,7 +135,7 @@ public class FinalAutoRedWheel extends LinearOpMode {
 
                 myLocalizer.update();
                 Pose2d mypose = myLocalizer.getPoseEstimate();
-                if (mypose.getY() <= -20) {
+                if (mypose.getY() <= -24) {
                     stopMotors();
                     break;
                 }
@@ -138,20 +149,20 @@ public class FinalAutoRedWheel extends LinearOpMode {
             stopMotors();
 
             setMotorPowers(0.3,-0.3,0.3,-0.3);
-            sleep(1350);
+            sleep(75);
             stopMotors();
 
-            m5.setTargetPosition(700);
+            m5.setTargetPosition(-700);
             m5.setPower(0.5);
             while (m5.isBusy()) {
             }
 
-            m6.setTargetPosition(288);
+            m6.setTargetPosition(370);
             m6.setPower(-0.5);
             while (m6.isBusy()) {
             }
 
-            m5.setTargetPosition(1350);
+            m5.setTargetPosition(-1350);
             m5.setPower(0.5);
             while (m5.isBusy()) {
             }
@@ -162,7 +173,7 @@ public class FinalAutoRedWheel extends LinearOpMode {
             }
             m8.setPower(0);
 
-            m5.setTargetPosition(700);
+            m5.setTargetPosition(-700);
             m5.setPower(0.5);
             while (m5.isBusy()) {
             }
@@ -192,7 +203,7 @@ public class FinalAutoRedWheel extends LinearOpMode {
             }
             stopMotors();
 
-            setMotorPowers(0.5,-0.5,0.5,-0.5);
+            setMotorPowers(-0.5,0.5,-0.5,0.5);
             m6.setTargetPosition(2714);
             m6.setPower(0.5);
             sleep(2000);
@@ -223,8 +234,8 @@ public class FinalAutoRedWheel extends LinearOpMode {
             while (m6.isBusy()) {
             }
 
-            //center
-        } else if (whatisrec == "left") {
+
+        } else if (height == "center") {
 
             setMotorPowers(0.3,-0.3,0.3,-0.3);
             sleep(700);
@@ -252,7 +263,7 @@ public class FinalAutoRedWheel extends LinearOpMode {
             stopMotors();
 
             setMotorPowers(-0.3,0.3,-0.3,0.3);
-            sleep(1350);
+            sleep(600);
             stopMotors();
 
             m5.setTargetPosition(-1450);
@@ -317,8 +328,7 @@ public class FinalAutoRedWheel extends LinearOpMode {
             while (m6.isBusy()) {
             }
 
-        //right
-        } else {
+        } else if (height == "right") {
 
             setMotorPowers(0.3,-0.3,0.3,-0.3);
             sleep(700);

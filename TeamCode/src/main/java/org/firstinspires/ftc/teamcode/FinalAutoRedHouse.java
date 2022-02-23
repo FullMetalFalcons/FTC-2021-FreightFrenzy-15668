@@ -16,6 +16,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 
+@Disabled
 @Autonomous(name = "Final Auto Red House", group = "Final")
 
 public class FinalAutoRedHouse extends LinearOpMode {
@@ -107,6 +108,8 @@ public class FinalAutoRedHouse extends LinearOpMode {
             }
         }
 
+        whatisrec = "center";
+
         waitForStart();
 
         //center
@@ -118,16 +121,16 @@ public class FinalAutoRedHouse extends LinearOpMode {
                 setMotorPowers(-0.6,-0.6,-0.6,-0.6);
                 myLocalizer.update();
                 Pose2d mypose = myLocalizer.getPoseEstimate();
-                m6.setTargetPosition(720);
+                m6.setTargetPosition(800);
                 m6.setPower(0.5);
-                if (mypose.getY() <= -12) {
+                if (mypose.getY() <= -13) {
                     stopMotors();
                     break;
                 }
             }
             stopMotors();
 
-            m5.setTargetPosition(1250);
+            m5.setTargetPosition(1300);
             m5.setPower(0.5);
             while (m5.isBusy()) {
             }
@@ -225,10 +228,10 @@ public class FinalAutoRedHouse extends LinearOpMode {
                 myLocalizer.update();
                 Pose2d mypose = myLocalizer.getPoseEstimate();
 
-                m6.setTargetPosition(1200);
+                m6.setTargetPosition(1400);
                 m6.setPower(0.5);
 
-                if (mypose.getY() <= -14) {
+                if (mypose.getY() <= -13) {
                     break;
                 }
             }
@@ -323,12 +326,12 @@ public class FinalAutoRedHouse extends LinearOpMode {
             while (m5.isBusy()) {
             }
 
-            m6.setTargetPosition(288);
+            m6.setTargetPosition(350);
             m6.setPower(-0.5);
             while (m6.isBusy()) {
             }
 
-            m5.setTargetPosition(1757);
+            m5.setTargetPosition(1750);
             m5.setPower(0.5);
             while (m5.isBusy()) {
             }
@@ -440,10 +443,10 @@ public class FinalAutoRedHouse extends LinearOpMode {
                 myLocalizer.update();
                 Pose2d mypose = myLocalizer.getPoseEstimate();
 
-                m6.setTargetPosition(1200);
+                m6.setTargetPosition(1400);
                 m6.setPower(0.5);
 
-                if (mypose.getY() <= -14) {
+                if (mypose.getY() <= -13) {
                     break;
                 }
             }
@@ -506,10 +509,10 @@ public class FinalAutoRedHouse extends LinearOpMode {
                 myLocalizer.update();
                 Pose2d mypose = myLocalizer.getPoseEstimate();
 
-                m6.setTargetPosition(1200);
+                m6.setTargetPosition(1300);
                 m6.setPower(0.5);
 
-                if (mypose.getY() <= -15) {
+                if (mypose.getY() <= -14) {
                     stopMotors();
                     break;
                 }
@@ -613,10 +616,10 @@ public class FinalAutoRedHouse extends LinearOpMode {
                 myLocalizer.update();
                 Pose2d mypose = myLocalizer.getPoseEstimate();
 
-                m6.setTargetPosition(1200);
+                m6.setTargetPosition(1300);
                 m6.setPower(0.5);
 
-                if (mypose.getY() <= -14) {
+                if (mypose.getY() <= -13) {
                     break;
                 }
             }

@@ -70,7 +70,9 @@ public class FinalTeleOpBlue extends LinearOpMode {
         int height = 350;
         double power = 0.5;
         int length = -1250;
-        int h2 = -1100;
+        int h2 = 1100;
+        boolean disable = false;
+        boolean mode = false;
 
         waitForStart();
 
@@ -162,14 +164,16 @@ public class FinalTeleOpBlue extends LinearOpMode {
 
             // code for run to position
             if (gamepad2.left_stick_button) {
-                h2 = -1100;
+                disable = false;
             } else if (gamepad2.right_stick_button) {
-                h2 = 1100;
+                disable = true;
             }
             if (gamepad2.left_bumper) {
                 length = -1250;
             } else if (gamepad2.right_bumper) {
                 length = -1550;
+            } else if (gamepad2.dpad_up) {
+                length = -1750;
             }
             if (gamepad2.dpad_down) {
                 height = 350;
@@ -186,7 +190,7 @@ public class FinalTeleOpBlue extends LinearOpMode {
                 m6.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
             if (gamepad2.y) {
-                m6.setTargetPosition(1200);
+                m6.setTargetPosition(1350);
                 m6.setPower(0.5);
                 while (m6.isBusy()) {
                     drive(totalpowervalue);
@@ -210,7 +214,7 @@ public class FinalTeleOpBlue extends LinearOpMode {
                         m8.setPower(0);
                     }
                 }
-            } else if (gamepad2.x) {
+            } else if (gamepad2.x && disable == false) {
                 m6.setTargetPosition(595);
                 m6.setPower(0.5);
                 while (m6.isBusy()) {
@@ -309,20 +313,8 @@ public class FinalTeleOpBlue extends LinearOpMode {
                         m8.setPower(0);
                     }
                 }
-            } else if (gamepad2.dpad_up) {
-                m5.setTargetPosition(0);
-                m5.setPower(0.5);
-                while (m5.isBusy()) {
-                    drive(totalpowervalue);
-                    if (gamepad2.right_trigger > 0.1) {
-                        m8.setPower(-gamepad2.right_trigger * power);
-                    } else if (gamepad2.left_trigger > 0.1) {
-                        m8.setPower(gamepad2.left_trigger);
-                    } else {
-                        m8.setPower(0);
-                    }
-                }
-                m6.setTargetPosition(5);
+            } else if (gamepad1.a) {
+                m6.setTargetPosition(0);
                 m6.setPower(0.5);
                 while (m6.isBusy()) {
                     drive(totalpowervalue);
@@ -334,6 +326,49 @@ public class FinalTeleOpBlue extends LinearOpMode {
                         m8.setPower(0);
                     }
                 }
+            } else if (gamepad1.x) {
+                m6.setTargetPosition(5500);
+                m6.setPower(0.5);
+                while (m6.isBusy()) {
+                    drive(totalpowervalue);
+                    if (gamepad2.right_trigger > 0.1) {
+                        m8.setPower(-gamepad2.right_trigger * power);
+                    } else if (gamepad2.left_trigger > 0.1) {
+                        m8.setPower(gamepad2.left_trigger);
+                    } else {
+                        m8.setPower(0);
+                    }
+                }
+            } else if (gamepad1.y) {
+                m6.setTargetPosition(5800);
+                m6.setPower(0.5);
+                while (m6.isBusy()) {
+                    drive(totalpowervalue);
+                    if (gamepad2.right_trigger > 0.1) {
+                        m8.setPower(-gamepad2.right_trigger * power);
+                    } else if (gamepad2.left_trigger > 0.1) {
+                        m8.setPower(gamepad2.left_trigger);
+                    } else {
+                        m8.setPower(0);
+                    }
+                }
+            }
+            if (gamepad1.start) {
+                m6.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                m6.setPower(0);
+                mode = true;
+            } else if (gamepad1.options || gamepad1.share) {
+                m6.setTargetPosition(m6.getCurrentPosition());
+                m6.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                m6.setPower(0);
+                mode = false;
+            }
+            if (gamepad1.right_trigger > 0.1 && mode == true) {
+                m6.setPower(gamepad1.right_trigger);
+            } else if (gamepad1.left_trigger > 0.1 && mode == true) {
+                m6.setPower(-gamepad1.left_trigger);
+            } else if (mode == true) {
+                m6.setPower(0);
             }
 
         }

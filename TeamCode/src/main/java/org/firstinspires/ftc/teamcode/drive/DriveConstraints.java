@@ -92,8 +92,8 @@ public class DriveConstraints {
      */
 
     // both - 52.48291908330528
-    public static double MAX_VEL = 20;
-    public static double MAX_ACCEL = 20;
+    public static double MAX_VEL = 30;
+    public static double MAX_ACCEL = 30;
     public static double MAX_ANG_VEL = Math.toRadians(151.8148382063384);
     public static double MAX_ANG_ACCEL = Math.toRadians(261.482587826087);
 
