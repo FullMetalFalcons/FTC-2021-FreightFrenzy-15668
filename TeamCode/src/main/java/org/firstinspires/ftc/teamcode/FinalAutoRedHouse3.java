@@ -6,7 +6,6 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -22,10 +21,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Disabled
-@Autonomous(name = "Final Auto Red House V2", group = "Final")
+@Autonomous(name = "Final Auto Red House V3", group = "Final")
 
-public class FinalAutoRedHouse2 extends LinearOpMode {
+public class FinalAutoRedHouse3 extends LinearOpMode {
 
     DcMotor m5, m6;
     DcMotorEx m7, m8;
@@ -118,15 +116,14 @@ public class FinalAutoRedHouse2 extends LinearOpMode {
                         // step through the list of recognitions and display boundary info.
                         int i = 0;
                         for (Recognition recognition : updatedRecognitions) {
-                            telemetry.addData("label: ", recognition.getLabel());
                             telemetry.addData("left: ", recognition.getLeft());
-                            telemetry.addData("con: ", recognition.getConfidence());
+                            telemetry.addData("h: ", recognition.getHeight());
                             vnum = recognition.getLeft();
-                            if (vnum < 100) {
+                            if (vnum < 100 && recognition.getHeight() < 275) {
                                 height = "left";
-                            } else if (vnum > 300 && vnum < 450) {
+                            } else if (vnum > 300 && vnum < 450 && recognition.getHeight() < 275) {
                                 height = "center";
-                            } else if (vnum > 650) {
+                            } else if (vnum > 650 && recognition.getHeight() < 275) {
                                 height = "right";
                             }
                             telemetry.addData("height: ", height);

@@ -98,11 +98,11 @@ public class FinalAutoBlueWheel extends LinearOpMode {
                             telemetry.addData("left: ", recognition.getLeft());
                             telemetry.addData("con: ", recognition.getConfidence());
                             vnum = recognition.getLeft();
-                            if (vnum < 100) {
+                            if (vnum < 100 && recognition.getHeight() < 275) {
                                 height = "left";
-                            } else if (vnum > 200 && vnum < 380) {
+                            } else if (vnum > 200 && vnum < 380 && recognition.getHeight() < 275) {
                                 height = "center";
-                            } else if (vnum > 600) {
+                            } else if (vnum > 600 && recognition.getHeight() < 275) {
                                 height = "right";
                             }
                             telemetry.addData("height: ", height);

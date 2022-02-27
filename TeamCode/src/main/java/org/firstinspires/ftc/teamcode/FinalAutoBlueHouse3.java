@@ -6,7 +6,6 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -22,10 +21,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Disabled
-@Autonomous(name = "Final Auto Red House V2", group = "Final")
+@Autonomous(name = "Final Auto Blue House V3", group = "Final")
 
-public class FinalAutoRedHouse2 extends LinearOpMode {
+public class FinalAutoBlueHouse3 extends LinearOpMode {
 
     DcMotor m5, m6;
     DcMotorEx m7, m8;
@@ -69,36 +67,35 @@ public class FinalAutoRedHouse2 extends LinearOpMode {
         Pose2d startPose = new Pose2d(0, 0, Math.toRadians(0));
         Map<String, Trajectory> tlist = new HashMap<>() ;
 
-        Vector2d Waypoint = new Vector2d(-23.5,-1.5);
+        Vector2d Waypoint = new Vector2d(-23.5,1.5);
         Trajectory FirstPoint = drive.trajectoryBuilder(startPose).lineToConstantHeading(Waypoint).build();
         tlist.put("FristPoint", FirstPoint);
 
-        Pose2d Waypoint2 = new Pose2d(0,0, Math.toRadians(90));
+        Pose2d Waypoint2 = new Pose2d(0,0, Math.toRadians(-90));
         Trajectory SecondPoint = drive.trajectoryBuilder(FirstPoint.end()).lineToLinearHeading(Waypoint2).build();
         tlist.put("SecondPoint", SecondPoint);
 
-        Trajectory ThirdPoint = drive.trajectoryBuilder(SecondPoint.end()).strafeRight(3).build();
+        Trajectory ThirdPoint = drive.trajectoryBuilder(SecondPoint.end()).strafeLeft(3).build();
         tlist.put("ThirdPoint", ThirdPoint);
 
         Trajectory FourthPoint = drive.trajectoryBuilder(ThirdPoint.end()).forward(37).build();
         tlist.put("FourthPoint", FourthPoint);
 
-        Pose2d Waypoint3 = new Pose2d(2,31, Math.toRadians(90));
+        Pose2d Waypoint3 = new Pose2d(2,-31, Math.toRadians(-90));
         Trajectory FifthPoint = drive.trajectoryBuilder(FourthPoint.end()).lineToLinearHeading(Waypoint3).build();
         tlist.put("FifthPoint", FifthPoint);
 
-        Pose2d Waypoint4 = new Pose2d(4,0, Math.toRadians(90));
+        Pose2d Waypoint4 = new Pose2d(4,0, Math.toRadians(-90));
         Trajectory SeventhPoint = drive.trajectoryBuilder(FifthPoint.end()).lineToLinearHeading(Waypoint4).build();
         tlist.put("SeventhPoint", SeventhPoint);
 
-        Pose2d Waypoint5 = new Pose2d(-20,-2, Math.toRadians(90));
+        Pose2d Waypoint5 = new Pose2d(-20,2, Math.toRadians(-90));
         Trajectory EighthPoint = drive.trajectoryBuilder(SeventhPoint.end()).lineToLinearHeading(Waypoint5).build();
         tlist.put("EighthPoint", EighthPoint);
 
-        Pose2d Waypoint6 = new Pose2d(0,0, Math.toRadians(90));
+        Pose2d Waypoint6 = new Pose2d(0,0, Math.toRadians(-90));
         Trajectory NinthPoint = drive.trajectoryBuilder(EighthPoint.end()).lineToLinearHeading(Waypoint6).build();
         tlist.put("NinthPoint", NinthPoint);
-
 
         initVuforia();
         initTfod();
@@ -118,15 +115,14 @@ public class FinalAutoRedHouse2 extends LinearOpMode {
                         // step through the list of recognitions and display boundary info.
                         int i = 0;
                         for (Recognition recognition : updatedRecognitions) {
-                            telemetry.addData("label: ", recognition.getLabel());
                             telemetry.addData("left: ", recognition.getLeft());
-                            telemetry.addData("con: ", recognition.getConfidence());
+                            telemetry.addData("h: ", recognition.getHeight());
                             vnum = recognition.getLeft();
-                            if (vnum < 100) {
+                            if (vnum < 100 && recognition.getHeight() < 275) {
                                 height = "left";
-                            } else if (vnum > 300 && vnum < 450) {
+                            } else if (vnum > 140 && vnum < 300 && recognition.getHeight() < 275) {
                                 height = "center";
-                            } else if (vnum > 650) {
+                            } else if (vnum > 520 && recognition.getHeight() < 275) {
                                 height = "right";
                             }
                             telemetry.addData("height: ", height);
@@ -141,20 +137,20 @@ public class FinalAutoRedHouse2 extends LinearOpMode {
         waitForStart();
 
         if (height == "") {
-            height = "right";
+            height = "left";
         }
 
         if (height == "left") {
-            arm = 475;
-            rotater = 1375;
-            speed = -0.10;
+            arm = 512;
+            rotater = -1352;
+            speed = -0.25;
         } else if (height =="center") {
             arm = 932;
-            rotater = 1447;
+            rotater = -1447;
             speed = -0.5;
         } else if (height =="right") {
             arm = 1333;
-            rotater = 1458;
+            rotater = -1458;
             speed = -0.5;
         }
 
@@ -192,13 +188,13 @@ public class FinalAutoRedHouse2 extends LinearOpMode {
 
         sleep(100);
 
-        drive.setMotorPowers(0.7,-0.7,0.7,-0.7);
+        drive.setMotorPowers(-0.7,0.7,-0.7,0.7);
         sleep(500);
 
         drive.followTrajectory(tlist.get("FourthPoint"));
         sleep(100);
 
-        drive.setMotorPowers(0.1,0.5,0.1,0.5);
+        drive.setMotorPowers(0.5,0.1,0.5,0.1);
         m8.setPower(1);
         sleep(2000);
         drive.setMotorPowers(0,0,0,0);
@@ -210,7 +206,7 @@ public class FinalAutoRedHouse2 extends LinearOpMode {
         drive.followTrajectory(tlist.get("FifthPoint"));
         sleep(100);
 
-        //drive.setMotorPowers(0.7,-0.7,0.7,0.7);
+        //drive.setMotorPowers(-0.7,0.7,-0.7,0.7);
         //sleep(600);
 
         //drive.setMotorPowers(0,0,0,0);
@@ -226,7 +222,7 @@ public class FinalAutoRedHouse2 extends LinearOpMode {
         while (m6.isBusy()) {
         }
 
-        m5.setTargetPosition(-1696);
+        m5.setTargetPosition(1696);
         m5.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         m5.setPower(0.5);
         while (m5.isBusy()) {
@@ -252,7 +248,7 @@ public class FinalAutoRedHouse2 extends LinearOpMode {
         }
         sleep(100);
 
-        drive.setMotorPowers(0.7,-0.7,0.7,-0.7);
+        drive.setMotorPowers(-0.7,0.7,-0.7,0.7);
         sleep(500);
 
         drive.setMotorPowers(0,0,0,0);

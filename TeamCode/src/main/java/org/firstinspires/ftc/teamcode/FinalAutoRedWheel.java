@@ -99,11 +99,11 @@ public class FinalAutoRedWheel extends LinearOpMode {
                             telemetry.addData("left: ", recognition.getLeft());
                             telemetry.addData("con: ", recognition.getConfidence());
                             vnum = recognition.getLeft();
-                            if (vnum < 100) {
+                            if (vnum < 100 && recognition.getHeight() < 275) {
                                 height = "left";
-                            } else if (vnum > 180 && vnum < 350) {
+                            } else if (vnum > 180 && vnum < 350 && recognition.getHeight() < 275)  {
                                 height = "center";
-                            } else if (vnum > 570) {
+                            } else if (vnum > 570 && recognition.getHeight() < 275) {
                                 height = "right";
                             }
                             telemetry.addData("height: ", height);
